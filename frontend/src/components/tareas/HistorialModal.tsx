@@ -28,7 +28,7 @@ function HistorialModal({ isOpen, historial, onClose }: HistorialModalProps) {
                     <div className="timeline-dot" />
                     <div className="timeline-card">
                       <div className="d-flex flex-column flex-md-row justify-content-between gap-2">
-                        <strong>{item.accion.replaceAll('_', ' ')}</strong>
+                        <strong>{item.accion.split('_').join(' ')}</strong>
                         <span className="text-muted small">{formatDate(item.fecha)}</span>
                       </div>
                       <p className="mb-1 mt-2">{item.descripcion}</p>
