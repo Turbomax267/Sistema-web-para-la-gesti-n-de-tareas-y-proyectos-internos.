@@ -1,4 +1,4 @@
-:root {
+﻿:root {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   color: #17324d;
   background:
@@ -10,6 +10,7 @@ body {
   margin: 0;
   min-height: 100vh;
   background: transparent;
+  overflow-x: hidden;
 }
 
 #root {
@@ -60,14 +61,29 @@ body {
 .sidebar-link.active {
   background: rgba(255, 255, 255, 0.12);
   color: #fff;
+  transform: translateX(4px);
 }
 
 .main-shell {
   padding: 2rem;
+  position: relative;
+}
+
+.main-shell::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(circle at 15% 20%, rgba(31, 108, 255, 0.18), transparent 22%),
+    radial-gradient(circle at 85% 15%, rgba(18, 184, 134, 0.14), transparent 20%),
+    radial-gradient(circle at 60% 80%, rgba(255, 184, 0, 0.10), transparent 18%);
+  pointer-events: none;
+  z-index: -1;
 }
 
 .page-header {
   margin-bottom: 2rem;
+  animation: fadeUp 0.5s ease;
 }
 
 .header-label {
@@ -92,10 +108,19 @@ body {
   border: 1px solid rgba(23, 50, 77, 0.08);
   border-radius: 1.5rem;
   box-shadow: 0 14px 35px rgba(20, 47, 74, 0.08);
+  backdrop-filter: blur(10px);
 }
 
 .content-card {
   padding: 1.5rem;
+  animation: fadeUp 0.5s ease;
+}
+
+.content-card:hover,
+.stat-card:hover {
+  transform: translateY(-2px);
+  transition: 0.25s ease;
+  box-shadow: 0 18px 42px rgba(20, 47, 74, 0.12);
 }
 
 .stat-card {
@@ -103,6 +128,7 @@ body {
   display: flex;
   align-items: center;
   gap: 1rem;
+  animation: fadeUp 0.5s ease;
 }
 
 .stat-icon {
@@ -164,9 +190,38 @@ body {
   width: 150px;
 }
 
+.table thead th {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #5a6b7e;
+  border-bottom-width: 1px;
+}
+
 .table > :not(caption) > * > * {
   padding-top: 1rem;
   padding-bottom: 1rem;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #1f6cff 0%, #0ea5e9 100%);
+  border: none;
+  box-shadow: 0 10px 24px rgba(31, 108, 255, 0.22);
+}
+
+.btn-primary:hover {
+  filter: brightness(1.03);
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @media (max-width: 991px) {
@@ -183,4 +238,3 @@ body {
     padding: 1rem;
   }
 }
-
