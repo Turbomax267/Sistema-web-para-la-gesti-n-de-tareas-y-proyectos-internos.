@@ -1,0 +1,186 @@
+:root {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: #17324d;
+  background:
+    radial-gradient(circle at top left, rgba(31, 108, 255, 0.16), transparent 30%),
+    linear-gradient(135deg, #f4f8ff 0%, #eef4f1 100%);
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: transparent;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+.app-shell {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 280px 1fr;
+}
+
+.sidebar-panel {
+  background: linear-gradient(180deg, #17324d 0%, #0f1f31 100%);
+  color: #fff;
+  padding: 2rem 1.5rem;
+  position: sticky;
+  top: 0;
+  min-height: 100vh;
+}
+
+.sidebar-kicker {
+  display: inline-block;
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #8cc7ff;
+}
+
+.sidebar-brand {
+  font-size: 1.7rem;
+  margin-top: 0.75rem;
+  margin-bottom: 0;
+}
+
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.78);
+  padding: 0.9rem 1rem;
+  border-radius: 1rem;
+  transition: all 0.2s ease;
+}
+
+.sidebar-link:hover,
+.sidebar-link.active {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+}
+
+.main-shell {
+  padding: 2rem;
+}
+
+.page-header {
+  margin-bottom: 2rem;
+}
+
+.header-label {
+  letter-spacing: 0.14em;
+  font-size: 0.75rem;
+}
+
+.header-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(23, 50, 77, 0.08);
+  color: #17324d;
+  padding: 0.8rem 1rem;
+  border-radius: 999px;
+  font-weight: 600;
+}
+
+.content-card,
+.stat-card {
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(23, 50, 77, 0.08);
+  border-radius: 1.5rem;
+  box-shadow: 0 14px 35px rgba(20, 47, 74, 0.08);
+}
+
+.content-card {
+  padding: 1.5rem;
+}
+
+.stat-card {
+  padding: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.stat-icon {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 1rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #1f6cff 0%, #12b886 100%);
+  color: #fff;
+  font-size: 1.2rem;
+}
+
+.modal-backdrop-custom {
+  position: fixed;
+  inset: 0;
+  background: rgba(12, 22, 34, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  z-index: 1050;
+}
+
+.timeline-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.timeline-item {
+  display: grid;
+  grid-template-columns: 20px 1fr;
+  gap: 1rem;
+  align-items: start;
+}
+
+.timeline-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  margin-top: 0.45rem;
+  background: #1f6cff;
+}
+
+.timeline-card {
+  background: #f7f9fc;
+  border-radius: 1rem;
+  padding: 1rem;
+}
+
+.empty-state {
+  background: linear-gradient(180deg, rgba(31, 108, 255, 0.05) 0%, rgba(18, 184, 134, 0.04) 100%);
+  border-radius: 1.25rem;
+}
+
+.action-select {
+  width: 150px;
+}
+
+.table > :not(caption) > * > * {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+@media (max-width: 991px) {
+  .app-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar-panel {
+    min-height: auto;
+    position: static;
+  }
+
+  .main-shell {
+    padding: 1rem;
+  }
+}
+
