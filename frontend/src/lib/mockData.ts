@@ -131,33 +131,65 @@ const defaultHistorial: HistorialItem[] = [
   },
 ];
 
-function readStorage<T>(key: string, fallback: T): T {
-  const raw = localStorage.getItem(key);
-  if (!raw) {
-    localStorage.setItem(key, JSON.stringify(fallback));
-    return fallback;
-  }
-
-  return JSON.parse(raw) as T;
-}
-
 function writeStorage<T>(key: string, value: T): void {
   localStorage.setItem(key, JSON.stringify(value));
 }
 
-export function initMockData(): void {
-  readStorage(STORAGE_KEYS.usuarios, defaultUsuarios);
-  readStorage(STORAGE_KEYS.proyectos, defaultProyectos);
-  readStorage(STORAGE_KEYS.tareas, defaultTareas);
-  readStorage(STORAGE_KEYS.historial, defaultHistorial);
+function cloneData<T>(value: T): T {
+  return JSON.parse(JSON.stringify(value)) as T;
+}
+
+function readStorage<T>(key: string, fallback: T, shouldRehydrate?: (value: T) => boolean): T {
+  const raw = localStorage.getItem(key);
+
+  if (!raw) {
+    const seeded = cloneData(fallback);
+    writeStorage(key, seeded);
+    return seeded;
+  }
+
+  try {
+    const parsed = JSON.parse(raw) as T;
+
+    if (shouldRehydrate && shouldRehydrate(parsed)) {
+      const seeded = cloneData(fallback);
+      writeStorage(key, seeded);
+      return seeded;
+    }
+
+    return parsed;
+  } catch {
+    const seeded = cloneData(fallback);
+    writeStorage(key, seeded);
+    return seeded;
+  }
+}
+
+function shouldSeedCollection<T>(value: T): boolean {
+  return !Array.isArray(value) || value.length === 0;
+}
+
+export function initMockData(forceReset = false): void {
+  if (forceReset) {
+    writeStorage(STORAGE_KEYS.usuarios, cloneData(defaultUsuarios));
+    writeStorage(STORAGE_KEYS.proyectos, cloneData(defaultProyectos));
+    writeStorage(STORAGE_KEYS.tareas, cloneData(defaultTareas));
+    writeStorage(STORAGE_KEYS.historial, cloneData(defaultHistorial));
+    return;
+  }
+
+  readStorage(STORAGE_KEYS.usuarios, defaultUsuarios, shouldSeedCollection);
+  readStorage(STORAGE_KEYS.proyectos, defaultProyectos, shouldSeedCollection);
+  readStorage(STORAGE_KEYS.tareas, defaultTareas, shouldSeedCollection);
+  readStorage(STORAGE_KEYS.historial, defaultHistorial, shouldSeedCollection);
 }
 
 export function getUsuarios(): Usuario[] {
-  return readStorage(STORAGE_KEYS.usuarios, defaultUsuarios);
+  return readStorage(STORAGE_KEYS.usuarios, defaultUsuarios, shouldSeedCollection);
 }
 
 export function getProyectos(): Proyecto[] {
-  return readStorage(STORAGE_KEYS.proyectos, defaultProyectos);
+  return readStorage(STORAGE_KEYS.proyectos, defaultProyectos, shouldSeedCollection);
 }
 
 export function saveProyectos(proyectos: Proyecto[]): void {
@@ -165,7 +197,7 @@ export function saveProyectos(proyectos: Proyecto[]): void {
 }
 
 export function getTareas(): Tarea[] {
-  return readStorage(STORAGE_KEYS.tareas, defaultTareas);
+  return readStorage(STORAGE_KEYS.tareas, defaultTareas, shouldSeedCollection);
 }
 
 export function saveTareas(tareas: Tarea[]): void {
@@ -173,9 +205,13 @@ export function saveTareas(tareas: Tarea[]): void {
 }
 
 export function getHistorial(): HistorialItem[] {
-  return readStorage(STORAGE_KEYS.historial, defaultHistorial);
+  return readStorage(STORAGE_KEYS.historial, defaultHistorial, shouldSeedCollection);
 }
 
 export function saveHistorial(historial: HistorialItem[]): void {
   writeStorage(STORAGE_KEYS.historial, historial);
+}
+
+export function resetMockDemo(): void {
+  initMockData(true);
 }
